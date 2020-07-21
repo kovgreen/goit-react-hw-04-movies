@@ -1,0 +1,13 @@
+.Form {
+  margin-left: 20px;
+}
+
+.SearchFormInput {
+  margin-left: 20px;
+  margin-right: 10px;
+  font-size: 16px;
+}
+
+.SearchFormButton {
+  font-size: 16px;
+}

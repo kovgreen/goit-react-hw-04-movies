@@ -1,0 +1,5 @@
+.ListItem {
+  display: inline-block;
+  list-style: none;
+  color: rgb(119, 97, 97);
+}

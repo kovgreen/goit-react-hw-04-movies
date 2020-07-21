@@ -1,0 +1,30 @@
+.About {
+  display: flex;
+  flex-direction: row;
+  margin-left: 15px;
+}
+
+.Img {
+  margin-right: 20px;
+}
+
+.addInfo {
+  padding: 15px;
+  text-decoration: none;
+  font-weight: bolder;
+}
+
+.Bold {
+  font-weight: bold;
+}
+
+.AddInfoSection {
+  margin-top: 20px;
+  margin-left: 15px;
+  padding-bottom: 20px;
+  border-top: 2px solid rgb(156, 156, 156);
+}
+
+.BackBtn {
+  margin: 0 0 15px 15px;
+}

@@ -1,0 +1,27 @@
+.App {
+  max-width: 1800px;
+  margin-left: 50px;
+  margin-right: auto;
+  font-size: 16px;
+}
+
+.Nav {
+  background-color: #fff;
+  margin: 15px;
+  min-height: 10vh;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  font-size: calc(10px + 2vmin);
+  color: #352f2f;
+  text-decoration: none;
+  list-style: none;
+  border-bottom: 2px solid #9c9c9c;
+}
+
+.LinkNav {
+  padding: 20px;
+  text-decoration: none;
+  font-weight: 700;
+}
