@@ -1,22 +1,22 @@
-import React, { Component, lazy, Suspense } from "react";
-import * as movieApi from "../../services/movieApi";
-import { Switch, Route, Link } from "react-router-dom";
-import Loader from "react-loader-spinner";
-// import MovieCredits from "../../components/MovieCredits/MovieCredits";
-// import MovieReviews from "../../components/MovieReviews/MovieReviews";
-import styles from "./MoviesDetails.module.css";
-import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+import React, { Component, lazy, Suspense } from 'react';
+import PropTypes from 'prop-types';
+import * as movieApi from '../../services/movieApi';
+import { Switch, Route, NavLink } from 'react-router-dom';
+import routers from '../../services/router';
+import Loader from 'react-loader-spinner';
+import styles from './MoviesDetails.module.css';
+import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 
 const AsyncCredits = lazy(() =>
   import(
-    "../../components/MovieCredits/MovieCredits" /* webpackChunkName: "credits-page" */
-  )
+    '../../components/MovieCredits/MovieCredits' /* webpackChunkName: "credits-page" */
+  ),
 );
 
 const AsyncReviews = lazy(() =>
   import(
-    "../../components/MovieReviews/MovieReviews" /* webpackChunkName: "reviews-page" */
-  )
+    '../../components/MovieReviews/MovieReviews' /* webpackChunkName: "reviews-page" */
+  ),
 );
 
 class MoviesDetails extends Component {
@@ -24,8 +24,9 @@ class MoviesDetails extends Component {
   static propTypes = {};
   state = {
     movie: {
-      genres: []
-    }
+      genres: [],
+    },
+    error: null,
   };
 
   componentDidMount() {
@@ -33,12 +34,10 @@ class MoviesDetails extends Component {
       .getMovieDetails(this.props.match.params.movieId)
       .then(movie => {
         this.setState({
-          movie: movie
+          movie: movie,
         });
       })
-      .catch(error => {
-        this.setState({ error });
-      });
+      .catch(error => this.setState({ error }));
   }
 
   constructor(props) {
@@ -58,10 +57,10 @@ class MoviesDetails extends Component {
       vote_average,
       overview,
       release_date,
-      genres
+      genres,
     } = this.state.movie;
 
-    let releaseYear = "";
+    let releaseYear = '';
 
     if (!!release_date) {
       releaseYear = release_date.substring(0, 4);
@@ -72,6 +71,7 @@ class MoviesDetails extends Component {
         <button className={styles.BackBtn} type="button" onClick={this.goBack}>
           Go back
         </button>
+        <h1 className={styles.TitleAbout}>About the movie</h1>
         <section className={styles.About}>
           {!!poster_path && (
             <img
@@ -84,53 +84,79 @@ class MoviesDetails extends Component {
             <h1>
               {title} ({releaseYear})
             </h1>
-            <p>User score: {vote_average}</p>
+            <p>
+              <span className={styles.Bold}>User score:</span> {vote_average}%
+            </p>
             <p className={styles.Bold}>Overview</p>
             <p>{overview}</p>
             <p className={styles.Bold}>Genres</p>
-            <ul>
+            <ul className={styles.List}>
               {genres.map(genre => (
-                <li key={genre.id}>{genre.name}</li>
+                <li className={styles.ListItem} key={genre.id}>
+                  {genre.name}
+                </li>
               ))}
             </ul>
           </section>
         </section>
         <section className={styles.AddInfoSection}>
-          <p className={styles.Bold}>Additional information</p>
-          <Suspense></Suspense>
-          <Link
-            className={styles.addInfo}
+          <p className={styles.AddInfo}>Additional information</p>
+          <NavLink
+            className={styles.LinkInfo}
             to={{ pathname: `/movies/${id}/credits` }}
+            activeClassName={styles.ActiveLink}
           >
-            Credits
-          </Link>
-          <Link
-            className={styles.addInfo}
+            Cast
+          </NavLink>
+          <NavLink
+            className={styles.LinkInfo}
             to={{ pathname: `/movies/${id}/reviews` }}
+            activeClassName={styles.ActiveLink}
           >
             Reviews
-          </Link>
+          </NavLink>
         </section>
         <Suspense
           fallback={
             <Loader
-              style={{ textAlign: "center" }}
+              style={{ textAlign: 'center' }}
               type="Circles"
               color="rgb(0, 0, 255)"
               height={100}
               width={100}
-              timeout={3000}
+              timeout={200}
             />
           }
         >
           <Switch>
-            <Route path="/movies/:movieId/credits" component={AsyncCredits} />
-            <Route path="/movies/:movieId/reviews" component={AsyncReviews} />
+            <Route
+              path={`${this.props.match.path}${routers.MOVIE_CREDITS}`}
+              component={AsyncCredits}
+            />
+            <Route
+              path={`${this.props.match.path}${routers.MOVIE_REVIEWS}`}
+              component={AsyncReviews}
+            />
           </Switch>
         </Suspense>
       </div>
     );
   }
 }
+
+MoviesDetails.propTypes = {
+  movie: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    title: PropTypes.string.isRequired,
+    poster_path: PropTypes.string,
+    vote_average: PropTypes.number.isRequired,
+    overview: PropTypes.string,
+    release_date: PropTypes.string,
+    genres: PropTypes.arrayOf({
+      id: PropTypes.number.isRequired,
+      name: PropTypes.string.isRequired,
+    }),
+  }),
+};
 
 export default MoviesDetails;

@@ -3,3 +3,11 @@
   list-style: none;
   color: rgb(119, 97, 97);
 }
+
+.Author {
+  font-weight: bold;
+}
+
+.TextOfAuthor {
+  padding: 0 20px;
+}

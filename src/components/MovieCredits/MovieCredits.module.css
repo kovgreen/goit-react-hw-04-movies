@@ -1,8 +1,36 @@
+.Subtitle {
+  text-align: center;
+  margin: 0 0 20px 0;
+  font-size: 20px;
+  font-weight: 700;
+}
+
 .List {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
   list-style: none;
-  text-decoration: none;
+}
+
+.ListItem {
+  width: 25%;
+  text-align: center;
+}
+
+.Img {
+  display: inline-block;
+  margin-bottom: 8px;
+  text-align: center;
 }
 
 .Name {
-  margin-left: 100px;
+  margin: 0 0 6px 0;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.Character {
+  margin: 0 0 30px 0;
+  font-size: 14px;
 }

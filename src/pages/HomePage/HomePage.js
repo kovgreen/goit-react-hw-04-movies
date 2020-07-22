@@ -1,19 +1,24 @@
-import React, { Component } from "react";
-import * as movieApi from "../../services/movieApi";
-import { Link } from "react-router-dom";
-import styles from "./HomePage.module.css";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import * as movieApi from '../../services/movieApi';
+import { NavLink } from 'react-router-dom';
+import styles from './HomePage.module.css';
 
 class HomePage extends Component {
   static defaultProps = {};
 
   static propTypes = {};
 
-  state = { trending: [] };
+  state = {
+    trending: [],
+    error: null,
+  };
 
   componentDidMount() {
-    movieApi.getTrending().then(movies => {
-      this.setState({ trending: movies });
-    });
+    movieApi
+      .getTrending()
+      .then(movies => this.setState({ trending: movies }))
+      .then(error => this.setState({ error }));
   }
 
   render() {
@@ -24,12 +29,12 @@ class HomePage extends Component {
         <ul className={styles.List}>
           {trending.map(movie => (
             <li className={styles.ListItem} key={movie.id}>
-              <Link
+              <NavLink
                 className={styles.ListItem}
                 to={{ pathname: `/movies/${movie.id}` }}
               >
                 {movie.title}
-              </Link>
+              </NavLink>
             </li>
           ))}
         </ul>
@@ -37,5 +42,15 @@ class HomePage extends Component {
     );
   }
 }
+
+HomePage.propTypes = {
+  trending: PropTypes.shape({
+    page: PropTypes.number,
+    movies: PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      title: PropTypes.string.isRequired,
+    }),
+  }),
+};
 
 export default HomePage;

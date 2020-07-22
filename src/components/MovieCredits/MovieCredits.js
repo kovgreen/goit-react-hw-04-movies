@@ -1,26 +1,26 @@
-import React, { Component } from "react";
-import * as movieApi from "../../services/movieApi";
-import styles from "./MovieCredits.module.css";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import * as movieApi from '../../services/movieApi';
+import styles from './MovieCredits.module.css';
 
 class MovieCredits extends Component {
   static defaultProps = {};
   static propTypes = {};
 
   state = {
-    credits: { crew: [], cast: [] }
+    credits: { crew: [], cast: [] },
+    error: null,
   };
 
   componentDidMount() {
     movieApi
       .getMovieCredits(this.props.match.params.movieId)
-      .then(credits => {
+      .then(credit =>
         this.setState({
-          credits: credits
-        });
-      })
-      .catch(error => {
-        this.setState({ error });
-      });
+          credits: credit,
+        }),
+      )
+      .catch(error => this.setState({ error }));
   }
 
   render() {
@@ -28,43 +28,68 @@ class MovieCredits extends Component {
 
     return (
       <div>
-        <h2 className={styles.Name}>Cast</h2>
-        <ul>
-          {credits &&
-            credits.cast &&
-            credits.cast.map(member => (
-              <li className={styles.List} key={member.credit_id}>
-                {member.profile_path && (
-                  <img
-                    src={movieApi.imgpath + member.profile_path}
-                    alt={member.name}
-                  />
-                )}
-                <p>{member.name}</p>
-                <p>Character: {member.chatacter}</p>
-              </li>
-            ))}
-        </ul>
-        <h2>Crew</h2>
-        <ul>
-          {credits &&
-            credits.crew &&
-            credits.crew.map(member => (
-              <li key={member.credit_id}>
-                {member.profile_path && (
-                  <img
-                    src={movieApi.imgpath + member.profile_path}
-                    alt={member.name}
-                  />
-                )}
-                <p>{member.name}</p>
-                <p>Job: {member.job}</p>
-              </li>
-            ))}
-        </ul>
+        <h2 className={styles.Subtitle}>Cast</h2>
+        {!!credits.length ? (
+          <p>We dont have any cast for this movie</p>
+        ) : (
+          <>
+            <ul className={styles.List}>
+              {credits &&
+                credits.cast &&
+                credits.cast.map(member => (
+                  <li className={styles.ListItem} key={member.credit_id}>
+                    {member.profile_path && (
+                      <img
+                        className={styles.Img}
+                        src={movieApi.imgpath + member.profile_path}
+                        alt={member.name}
+                      />
+                    )}
+                    <p className={styles.Name}>{member.name}</p>
+                    <p className={styles.Character}>{member.character}</p>
+                  </li>
+                ))}
+            </ul>
+            <h2 className={styles.Subtitle}>Crew</h2>
+            <ul className={styles.List}>
+              {credits &&
+                credits.crew &&
+                credits.crew.map(member => (
+                  <li className={styles.ListItem} key={member.credit_id}>
+                    {member.profile_path && (
+                      <img
+                        className={styles.Img}
+                        src={movieApi.imgpath + member.profile_path}
+                        alt={member.name}
+                      />
+                    )}
+                    <p className={styles.Name}>{member.name}</p>
+                    <p className={styles.Character}> {member.job}</p>
+                  </li>
+                ))}
+            </ul>
+          </>
+        )}
       </div>
     );
   }
 }
 
+MovieCredits.propTypes = {
+  credits: PropTypes.shape({
+    cast: PropTypes.arrayOf({
+      credit_id: PropTypes.string.isRequired,
+      profile_path: PropTypes.string,
+      name: PropTypes.string.isRequired,
+      job: PropTypes.string.isRequired,
+      character: PropTypes.string.isRequired,
+    }),
+    crew: PropTypes.arrayOf({
+      credit_id: PropTypes.string.isRequired,
+      profile_path: PropTypes.string,
+      name: PropTypes.string.isRequired,
+      job: PropTypes.string.isRequired,
+    }),
+  }),
+};
 export default MovieCredits;

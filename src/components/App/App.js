@@ -1,35 +1,43 @@
-import React, { Component } from "react";
-import { Route, Switch, Redirect, Link } from "react-router-dom";
-import HomePage from "../../pages/HomePage/HomePage";
-import MoviesDetails from "../../pages/MoviesDetails/MoviesDetails";
-import SearchMovie from "../SearchMovie";
-import styles from "./App.module.css";
+import React from 'react';
+import { Route, Switch, Redirect, NavLink } from 'react-router-dom';
+import routers from '../../services/router';
+import HomePage from '../../pages/HomePage/HomePage';
+import MoviesDetails from '../../pages/MoviesDetails/MoviesDetails';
+import SearchMovie from '../SearchMovie/SearchMovie';
+import styles from './App.module.css';
 
-class App extends Component {
-  render() {
-    return (
-      <div className={styles.App}>
-        <ul className={styles.Nav}>
-          <li>
-            <Link className={styles.LinkNav} to="/">
-              Home
-            </Link>
-          </li>
-          <li>
-            <Link className={styles.LinkNav} to="/movies">
-              Movie
-            </Link>
-          </li>
-        </ul>
-        <Switch>
-          <Route exact path="/" component={HomePage} />
-          <Route path="/movies/:movieId" component={MoviesDetails} />
-          <Route path="/movies" component={SearchMovie} />
-          <Redirect to="/" />
-        </Switch>
-      </div>
-    );
-  }
-}
+const App = () => {
+  return (
+    <div className={styles.App}>
+      <ul className={styles.Nav}>
+        <li>
+          <NavLink
+            exact
+            className={styles.LinkNav}
+            activeClassName={styles.ActiveLink}
+            to="/"
+          >
+            Home
+          </NavLink>
+        </li>
+        <li>
+          <NavLink
+            className={styles.LinkNav}
+            activeClassName={styles.ActiveLink}
+            to="/movies"
+          >
+            Movie
+          </NavLink>
+        </li>
+      </ul>
+      <Switch>
+        <Route exact path={routers.HOME} component={HomePage} />
+        <Route path={routers.MOVIE_DETAILS} component={MoviesDetails} />
+        <Route exact path={routers.MOVIES} component={SearchMovie} />
+        <Redirect to={routers.HOME} />
+      </Switch>
+    </div>
+  );
+};
 
 export default App;

@@ -1,30 +1,60 @@
+.TitleAbout {
+  margin: 0 0 10px 0;
+  padding: 0;
+  text-align: center;
+}
+
 .About {
   display: flex;
-  flex-direction: row;
-  margin-left: 15px;
+  margin-bottom: 50px;
+  padding: 0 60px 0 20px;
 }
 
 .Img {
-  margin-right: 20px;
+  display: block;
+  max-width: 100%;
+  height: auto;
+  padding-right: 20px;
 }
 
-.addInfo {
+.LinkInfo {
   padding: 15px;
   text-decoration: none;
   font-weight: bolder;
 }
 
-.Bold {
-  font-weight: bold;
+.AddInfo {
+  list-style: none;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.List {
+  margin: 0;
+  padding: 0;
+}
+
+.ListItem {
+  list-style: none;
+}
+
+.ActiveLink {
+  color: red;
+  font-weight: 900;
 }
 
 .AddInfoSection {
   margin-top: 20px;
-  margin-left: 15px;
   padding-bottom: 20px;
   border-top: 2px solid rgb(156, 156, 156);
 }
 
 .BackBtn {
-  margin: 0 0 15px 15px;
+  margin: 0 0 5px 15px;
+}
+
+.Bold {
+  font-weight: bold;
+  margin: 0 0 20px 0;
+  /* margin-bottom: 30px; */
 }

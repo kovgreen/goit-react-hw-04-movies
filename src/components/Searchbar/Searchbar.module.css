@@ -1,11 +1,12 @@
 .Form {
-  margin-left: 20px;
+  margin-bottom: 50px;
 }
 
 .SearchFormInput {
-  margin-left: 20px;
+  margin-left: 40px;
   margin-right: 10px;
   font-size: 16px;
+  color: rgb(114, 114, 110);
 }
 
 .SearchFormButton {
